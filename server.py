@@ -6,11 +6,16 @@ from modules.SCRFD import SCRFD
 import base64
 import eventlet
 import requests
+from flask_cors import CORS
+
 eventlet.monkey_patch()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
-socketio = SocketIO(app)
+CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
+
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 # Load the SCRFD model
 onnxmodel = 'models/scrfd_500m_kps.onnx'
